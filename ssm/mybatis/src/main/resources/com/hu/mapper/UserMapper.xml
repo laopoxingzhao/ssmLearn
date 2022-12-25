@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.mapper.UserMapper">
+
+
+    <insert id="insertUser" >
+        insert into t_user (username,password,age,gender,email)
+        values (#{username},#{password},#{age},#{gender},#{email})
+    </insert>
+
+<!--    这个User是typeAliases给com.hu.pojo.User起的别名-->
+    <select id="selectUser" resultType="usEr">
+        SELECT * FROM t_user;
+    </select>
+
+<!--    User selectUserByName(String username)-->
+    <select id="selectUserByName" resultType="com.hu.pojo.User">
+        select * from t_user where username = #{username}
+    </select>
+
+<!--     User selectUserByNameAndPassword(String username,String password);-->
+    <select id="selectUserByNameAndPassword" resultType="user">
+        select * from t_user where username = #{arg0} and password = #{arg1}
+    </select>
+<!--        User selectUserByMap(Map<String,Object> map);-->
+    <select id="selectUserByMap" resultType="user">
+        select * from t_user where password = #{password} and username = #{username}
+    </select>
+
+<!--    User selectUserByParam(@Param(value = "username") String username,@Param("password") String password);-->
+    <select id="selectUserByParam" resultType="user">
+        select * from t_user where password = #{password} and username = #{username}
+    </select>
+
+
+<!--    Integer selectUserCount();-->
+    <!--此处的int 为别名，是框架本身为java.lang.Integer定义的别名，不区分大小写-->
+    <select id="selectUserCount" resultType="int">
+        select count(id) from t_user
+    </select>
+
+
+<!--    Map<String,Object> selectUserByIdToMap(@Param("id") int id);-->
+    <select id="selectUserByIdToMap" resultType="map">
+        select * from t_user where id =#{id}
+    </select>
+
+
+<!--        List<Map<String,Object>> selectAllUserToMap();
+-->
+    <select id="selectAllUserToMap" resultType="map">
+        select * from t_user
+    </select>
+
+
+</mapper>
