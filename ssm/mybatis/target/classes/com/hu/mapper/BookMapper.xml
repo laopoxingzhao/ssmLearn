@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.mapper.BookMapper">
+
+    <resultMap id="b" type="book">
+        <id column="id" property="id"/>
+        <result column="bookname" property="Name"/>
+    </resultMap>
+
+
+    <select id="getName" resultType="String">
+        select bookname from t_book
+    </select>
+
+
+<!--    public Book getBook(String name)-->
+<!--    <select id="getBook" resultType="book">-->
+<!--        select  * from t_book where bookname = #{name}-->
+<!--    </select>-->
+    <select id="getBook" resultMap="b">
+        select  * from t_book where bookname = #{name}
+    </select>
+</mapper>
