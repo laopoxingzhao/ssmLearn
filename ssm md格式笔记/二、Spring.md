@@ -221,15 +221,80 @@ Spring 底层默认通过反射技术调用组件类的无参构造器来创建�
 >
 > <init>()
 
-### 2.2.2、实验二：获取bean
+### 2.2.2、实验二 bean的创建和获取
 
-#### ①方式一：根据id获取
+#### Spring创建bean的三种方式
+
+```java
+publicinterface UserDao {
+    public void run();
+}
+
+```
+
+```java
+public class UserDaoImpl implements UserDao {
+    @Override
+    public void run() {
+
+            System.out.println("User save");
+
+    }
+}
+```
+
+```java
+public class UserDaoStaticFactory {
+    public static UserDao getUserDao(){
+        return new UserDaoImpl();
+    }
+}
+```
+
+```java
+public class UserdaoInstanceFactory {
+
+    public  UserDao getUserDao(){
+        return new UserDaoImpl();
+    }
+}
+```
+
+##### 构造器获取
+
+```xml
+<!--获取bean的方法 1，构造器获取-->
+    <bean id="Userdao" class="com.hu.Spring.Dao.impl.UserDaoImpl"></bean>
+
+```
+
+##### 静态工厂
+
+```xml
+<!--2 静态工厂获取-->
+<bean id="UserdaoBystatic" class="com.hu.Spring.Factory.UserDaoStaticFactory" factory-method="getUserDao"></bean>
+```
+
+##### 实例工厂
+```XML
+<!--2 实例工厂-->
+<bean id="UserDaoInstancefactory" class="com.hu.Spring.Factory.UserdaoInstanceFactory"></bean>
+<bean id="UserDaoByInstance" factory-bean="UserDaoInstancefactory"  factory-method="getUserDao"></bean>
+```
+
+
+
+
+
+#### 获取bean
+
+##### ①方式一：根据id获取
 
 由于 id 属性指定了 bean 的唯一标识，所以根据 bean 标签的 id 属性可以精确获取到一个组件对象。
 
 上个实验中我们使用的就是这种方式。
 
-#### ②方式二：根据类型获取
+##### ②方式二：根据类型获取
 
 ```java
 @Test
@@ -240,7 +305,7 @@ public void testHelloWorld(){
 }
 ```
 
-#### ③方式三：根据id和类型
+##### ③方式三：根据id和类型
 
 ```java
 @Test
@@ -251,7 +316,7 @@ public void testHelloWorld(){
 }
 ```
 
-#### ④注意
+##### ④注意
 
 当根据类型获取bean时，要求IOC容器中指定类型的bean有且只能有一个
 
@@ -270,7 +335,7 @@ public void testHelloWorld(){
 >
 > found 2: helloworldOne,helloworldTwo
 
-#### ⑤扩展
+##### ⑤扩展
 
 如果组件类实现了接口，根据接口类型可以获取 bean 吗？
 
@@ -280,7 +345,7 @@ public void testHelloWorld(){
 
 > 不行，因为bean不唯一
 
-#### ⑥结论
+##### ⑥结论
 
 根据类型来获取bean时，在满足bean唯一性的前提下，其实只是看：『对象 **instanceof** 指定的类
 
